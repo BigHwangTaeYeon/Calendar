@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="t">
+
+<insert id="article_insert" parameterType="article">
+	insert into article values(seq_article_idx.nextVal,#{id}, #{title}, #{content}, sysdate, sysdate)
+</insert>
+<select id="article_list" resultType="article" parameterType="String">
+	select * from article where id = #{id}
+</select>
+
+<select id="article_info_list" resultType="article" parameterType="Int">
+	select * from article where idx = #{idx}
+</select>
+
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="schedule">
+	<!-- nextVal(schedule_sq) -->
+	<!-- <include refid="schedule_cols"/> -->
+	<insert id="schedule_add" parameterType="vo.ScheduleDto">
+			insert into schedule
+			values(schedule_sq.nextVal, #{schedule_num}, #{schedule_subject}, #{schedule_desc}, #{schedule_date}, #{schedule_share}, #{schedule_mycolor}, #{id})
+	</insert>
+	
+	<!-- <sql id="schedule_cols">
+		(schedule_idx, schedule_num, schedule_subject, schedule_desc, schedule_date,
+		schedule_share, schedule_mycolor)
+	</sql> -->
+	
+	<select id="before_schedule_add_search" resultType="int">
+		select count(*) from schedule where schedule_date = #{schedule_date}
+	</select>
+	
+	<select id="schedule_list" resultType="vo.ScheduleDto">
+		select * from schedule where id = #{id}
+		order by schedule_date, schedule_num, schedule_idx
+	</select>
+	
+	<!-- 리스트 가져오기 -->
+	<select id="get" resultType="vo.ScheduleDto">
+		<!-- <![CDATA[select * from schedule where schedule_idx=#{schedule_idx}]]> -->
+		select * from schedule where schedule_idx=#{schedule_idx}
+	</select>
+	
+	<!-- 수정하기 -->
+	<update id="update" parameterType="vo.ScheduleDto">
+		update schedule set
+		schedule_num = #{schedule_num},
+		schedule_subject = #{schedule_subject},
+		schedule_desc = #{schedule_desc},
+		schedule_date = #{schedule_date},
+		schedule_share = #{schedule_share},
+		schedule_mycolor = #{schedule_mycolor}
+		where schedule_idx = #{schedule_idx}
+	</update>
+	
+	<delete id="delete">
+		delete from schedule where schedule_idx=#{schedule_idx}
+	</delete>
+	
+</mapper>
