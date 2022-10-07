@@ -19,7 +19,7 @@
 			f.submit();
 			/* location.href='modity.do?idx='+f.idx.value; */
 		}
-		
+
 	</script>
 	<style>
 		html {background-color: #EFEFEF;}
@@ -60,7 +60,7 @@
 		}
 		
 		main {margin:10%; border: 10px #A0D9E2 solid; border-radius: 30px; width:78%; background-color:white;}
-		#main {margin:5% 5% 5% 30%; width:90%; font-size: 13pt; font-family: 'Do Hyeon', sans-serif;}
+		#main {margin:5% 5% 5% 25%; width:90%; font-size: 13pt; font-family: 'Do Hyeon', sans-serif;}
 		li {list-style: none;}
 		
 		#total {padding-left:200px; padding-top:50px;}
@@ -95,24 +95,29 @@
 				        <ul>
 					       	<li>
 					       		<form method="POST" action="modify.do?idx=${vo.idx}&id=${user.id}">
-								<script>
+								<script type="text/javascript">
 									var bottom = "";
 									bottom += "수입내역 : <span class='text"+${vo.idx}+" text_content"+${vo.idx}+"'>${vo.content} </span><input type='hidden' name='content' class='change_text"+${vo.idx}+"' value='${vo.content}' />"
 									bottom += "<span class='space'>금액 : </span><span class='text"+${vo.idx}+" text_income"+${vo.idx}+"'>${vo.income}</span><input type='hidden' name='income' class='change_text"+${vo.idx}+"' value='${vo.income}' />"
 									bottom += "<span class='space'>날짜 : </span><span class='text"+${vo.idx}+" text_day"+${vo.idx}+"'>${vo.day}</span><input type='hidden' name='day' class='change_text"+${vo.idx}+"' value='${vo.day}' /> 입니다."
 									
-									bottom += "<input class='button' type='button' value='수정' class='change"+${vo.idx}+"' onclick='count(this.form)' />"
-									bottom += "<input class='button' type='hidden' value='변경완료' onclick='modify(this.form);' class='change_button"+${vo.idx}+"' />"
-									bottom += "<input class='button' type='hidden' value='취소' class='change_cancel"+${vo.idx}+" change_button"+${vo.idx}+"' />"
+									bottom += "<input type='button' value='수정' class='change"+${vo.idx}+"' style='margin-left:10px; border: 1px #A0D9E2 solid; border-radius: 30px; background: none; text-align: center;'/>"
+									bottom += "<input type='hidden' value='변경완료' onclick='modify(this.form);' class='change_button"+${vo.idx}+"' style='margin-left:10px; border: 1px #A0D9E2 solid; border-radius: 30px; background: none; text-align: center;'/>"
+									bottom += "<input type='hidden' value='취소' class='change_cancel"+${vo.idx}+" change_button"+${vo.idx}+"' style='margin-left:10px; border: 1px #A0D9E2 solid; border-radius: 30px; background: none; text-align: center;'/>"
 
 									document.write(bottom);
 								</script>
 							    </form>
-							    <script>
+							    <form method="POST" action="delete.do?idx=${vo.idx}&id=${param.id}">
+								    <input type="hidden" name="idx" value="${vo.idx}" />
+								    <input class="change_hidden${vo.idx} button" type="button" value="삭제" onclick="del(this.form);" />
+							    </form>
+							    <script type="text/javascript">
 							    	console.log('aa');
 							    	$('.change'+${vo.idx}).click(function(){
 							    		console.log('2');
 										$('.change_text'+${vo.idx}).attr('type','text');
+										$('.change'+${vo.idx}).attr('type','hidden');
 										$('.change_hidden'+${vo.idx}).attr('type','hidden');
 										$('.change_button'+${vo.idx}).attr('type','button');
 										$('.text'+${vo.idx}).empty();
@@ -123,6 +128,7 @@
 									    let temp_day = '${vo.day}'
 									    
 										$('.change_text'+${vo.idx}).attr('type','hidden');
+										$('.change'+${vo.idx}).attr('type','button');
 										$('.change_hidden'+${vo.idx}).attr('type','button');
 										$('.change_button'+${vo.idx}).attr('type','hidden');
 										$('.text_content'+${vo.idx}).append(temp_content);
@@ -130,11 +136,6 @@
 										$('.text_day'+${vo.idx}).append(temp_day);
 							    	});
 								</script>
-									
-							    <form method="POST" action="delete.do?idx=${vo.idx}&id=${param.id}">
-								    <input type="hidden" name="idx" value="${vo.idx}" />
-								    <input class='button' type="button" value="삭제" onclick="del(this.form);" />
-							    </form>
 							</li>
 					    </ul>
 				</c:if>
@@ -154,23 +155,30 @@
 				        <ul>
 					       	<li>
 					       		<form method="POST" action="modify.do?idx=${vo.idx}&id=${param.id}">
-								<script>
+								<script type="text/javascript">
 									var bottom = "";
 									bottom += "지출내역 : <span class='text"+${vo.idx}+" text_content"+${vo.idx}+"'>${vo.content}</span><input type='hidden' name='content' class='change_text"+${vo.idx}+"' value='${vo.content}' />"
 									bottom += "<span class='space'>금액 : </span><span class='text"+${vo.idx}+" text_expense"+${vo.idx}+"'>${vo.expense}</span><input type='hidden' name='expense' class='change_text"+${vo.idx}+"' value='${vo.expense}' />"
 									bottom += "<span class='space'>날짜 : </span><span class='text"+${vo.idx}+" text_day"+${vo.idx}+"'>${vo.day}</span><input type='hidden' name='day' class='change_text"+${vo.idx}+"' value='${vo.day}' /> 입니다."
 									
 									bottom += "<input type='hidden' name='idx' value='${vo.idx}' />"
-									bottom += "<input class='button' type='button' value='수정' class='change"+${vo.idx}+"' onclick='count(this.form)' />"
-									bottom += "<input class='button' type='hidden' value='변경완료' onclick='modify(this.form);' class='change_button"+${vo.idx}+"' />"
-									bottom += "<input class='button' type='hidden' value='취소' class='change_cancel"+${vo.idx}+" change_button"+${vo.idx}+"' />"
+									bottom += "<input type='button' value='수정' class='change"+${vo.idx}+"' onclick='count(this.form)' style='margin-left:10px; border: 1px #A0D9E2 solid; border-radius: 30px; background: none; text-align: center;' />"
+									bottom += "<input type='hidden' value='변경완료' onclick='modify(this.form);' class='change_button"+${vo.idx}+"' style='margin-left:10px; border: 1px #A0D9E2 solid; border-radius: 30px; background: none; text-align: center;' />"
+									bottom += "<input type='hidden' value='취소' class='change_cancel"+${vo.idx}+" change_button"+${vo.idx}+"' style='margin-left:10px; border: 1px #A0D9E2 solid; border-radius: 30px; background: none; text-align: center;' />"
 
 									document.write(bottom);
 								</script>
 							    </form>
-							    <script>
+							    <form method="POST" action="delete.do?idx=${vo.idx}&id=${param.id}">
+								    <input type="hidden" name="expense" value="${vo.expense}" />
+								    <input type="hidden" name="content" value="${vo.content}" />
+								    <input type="hidden" name="idx" value="${vo.idx}" />
+								    <input class="change_hidden${vo.idx} button" type="button" value="삭제" onclick="del(this.form);" />
+							    </form>
+							    <script type="text/javascript">
 							    	$('.change'+${vo.idx}).click(function(){
 										$('.change_text'+${vo.idx}).attr('type','text');
+										$('.change'+${vo.idx}).attr('type','hidden');
 										$('.change_hidden'+${vo.idx}).attr('type','hidden');
 										$('.change_button'+${vo.idx}).attr('type','button');
 										$('.text'+${vo.idx}).empty();
@@ -181,6 +189,7 @@
 									    let temp_day = '${vo.day}'
 									    
 										$('.change_text'+${vo.idx}).attr('type','hidden');
+										$('.change'+${vo.idx}).attr('type','button');
 										$('.change_hidden'+${vo.idx}).attr('type','button');
 										$('.change_button'+${vo.idx}).attr('type','hidden');
 										$('.text_content'+${vo.idx}).append(temp_content);
@@ -188,14 +197,6 @@
 										$('.text_day'+${vo.idx}).append(temp_day);
 							    	});
 								</script>
-									
-							    <form method="POST" action="delete.do?idx=${vo.idx}&id=${param.id}">
-								    <input type="hidden" name="expense" value="${vo.expense}" />
-								    <input type="hidden" name="content" value="${vo.content}" />
-								    <input type="hidden" name="idx" value="${vo.idx}" />
-								    <input class='button' type="button" value="삭제" onclick="del(this.form);" />
-							    </form>
-							    
 						    </li>
 					    </ul>
 					
